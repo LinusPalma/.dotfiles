@@ -1,0 +1,25 @@
+---
+# - name: Install collections
+#   hosts: localhost
+#   connection: local
+#   gather_facts: yes
+  
+#   tasks:
+#     - name: Install AUR collection (Arch only)
+#       ansible.builtin.command:
+#         cmd: ansible-galaxy collection install kewlfft.aur
+#       when: ansible_facts['os_family'] == 'Archlinux'
+#       changed_when: false
+
+#     - name: Refresh facts after collection install
+#       meta: refresh_inventory
+
+- name: Setup dotfiles
+  hosts: localhost
+  connection: local
+  
+  roles:
+    - ashell
+    - git
+    - hyprland
+    - hyprlock

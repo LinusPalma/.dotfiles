@@ -1,0 +1,32 @@
+---
+### via command: ###
+- name: Install ashell from AUR (Arch only)
+  command: yay -S --noconfirm ashell
+  args:
+    creates: /usr/bin/ashell
+  when: ansible_distribution == "Archlinux"
+  tags: [client]
+
+
+### via plugin: ###
+# - name: Install ashell from AUR (Arch only)
+#   kewlfft.aur.aur:
+#     name: ashell
+#     use: yay
+#     state: present
+#   when: ansible_facts['os_family'] == 'Archlinux'
+#   tags: [client]
+
+- name: Create ashell config directory
+  file: 
+    path: "{{ ansible_env.HOME }}/.config/ashell"
+    state: directory
+  tags: [client]
+
+- name: Symlink ashell config
+  file:
+    src: "{{ ansible_env.HOME }}/.dotfiles/ashell/config.toml"
+    dest: "{{ ansible_env.HOME }}/.config/ashell/config.toml"
+    state: link
+    force:  yes
+  tags: [client]

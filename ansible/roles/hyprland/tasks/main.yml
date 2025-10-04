@@ -1,0 +1,14 @@
+---
+- name: Create Hyprland config directory
+  file: 
+    path: "{{ ansible_env.HOME }}/.config/hypr"
+    state: directory
+  tags: [client]
+
+- name: Hyprland config symlink
+  file:
+    src: "{{ ansible_env.HOME }}/.dotfiles/hypr/hyprland.conf"
+    dest: "{{ ansible_env.HOME }}/.config/hypr/hyprland.conf"
+    state: link
+    force: yes
+  tags: [client]
