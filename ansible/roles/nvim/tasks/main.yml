@@ -1,0 +1,74 @@
+#-----------------#
+#  install nvim   #
+#-----------------#
+## --> für ubuntu from source oder via appimage!
+# TODO:Install for Ubuntu
+
+
+- name: Install nvim (Arch, Fedora)
+  package: 
+    name: neovim
+    state: present
+  become: yes
+  tags: [common]
+  when: ansible_distribution in ["Archlinux", "Fedora"]
+
+- name: Add Neovim PPA (Ubunut)
+  ansible.builtin.apt_repository:
+    repo: ppa:neovim-ppa/unstable
+    state: present
+  tags: [common]
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Neovim from PPA (Ubuntu)
+  ansible.builtin.apt:
+    name: neovim
+    state: present
+    update_cache: yes
+  tags: [common]
+  when: ansible_distribution == "Ubuntu"
+
+#---------------------------------------#
+#   Install fd (depencencie telescope   #
+#---------------------------------------#
+
+- name: install fd (Arch, Fedora)
+  package:
+    name: fd
+    state: present
+  become: yes
+  tags: [common]
+  when: ansible_distribution in ["Archlinux", "Fedora"]
+  
+- name: install fd (Ubuntu)
+  package:
+    name: fd-find 
+    state: present
+  become: yes
+  tags: [common]
+  when: ansible_distribution in ["Ubuntu"]
+  
+#-----------------------------#
+#   create config directory   #
+#-----------------------------#
+
+- name: Create nvim config directory
+  file: 
+    path: "{{ ansible_env.HOME }}/.config/nvim"
+    state: directory
+  tags: [common]
+
+## Symlinking conigs 
+
+#------------------------#
+#   Symlinking configs   #
+#------------------------#
+
+- name: Symling nvim config directory
+  file:
+    src: "{{ ansible_env.HOME }}/.dotfiles/nvim"
+    dest: "{{ ansible_env.HOME }}/.config/nvim"
+    state: link
+    force: yes
+  tags: [common]
+

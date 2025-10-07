@@ -54,7 +54,7 @@ sudo dnf install git ansible
 2. Repo clonen
 
 ```bash
-bashgit clone https://github.com/DEINNAME/dotfiles.git ~/.dotfiles
+git clone https://github.com/linuspalma/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles/ansible
 ```
 
@@ -67,7 +67,7 @@ ansible-playbook playbook.yml --tags client --ask-become-pass
 
 für Server (nur CLI Tools):
 ```bash
-ansible-playbook playbook.yml --tags server --ask-become-pass
+ansible-playbook playbook.yml --tags server,common --ask-become-pass
 ```
 
 
