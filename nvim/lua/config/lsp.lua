@@ -1,6 +1,7 @@
 -- Diagnostics Config (für ALLE Server)
 vim.diagnostic.config({
-  virtual_lines = true,
+  virtual_lines = {
+    current_line = true },
   virtual_text = false,
   signs = true,
   underline = true,
@@ -36,6 +37,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("<leader>d", vim.diagnostic.open_float, "Show Diagnostic")
   end,
 })
+
+
 
 -- ===== EXPLIZITE SERVER-LISTE =====
 -- Nur diese Server werden geladen!

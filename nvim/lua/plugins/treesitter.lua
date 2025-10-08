@@ -5,6 +5,7 @@ return {
   build = ":TSUpdate",
   config = function()
     require 'nvim-treesitter.configs'.setup {
+      modules = {},
       sync_install = false,
       ensure_installed = { "markdown", "lua" },
       auto_install = true,
