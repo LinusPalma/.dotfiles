@@ -1,11 +1,14 @@
-return { 
+return {
   "nvim-treesitter/nvim-treesitter",
   branch = 'master',
   lazy = false,
   build = ":TSUpdate",
-  config = function ()
-    require'nvim-treesitter.configs'.setup{
-      ensure_installed = { "markdown", "lua"},
+  config = function()
+    require 'nvim-treesitter.configs'.setup {
+      sync_install = false,
+      ensure_installed = { "markdown", "lua" },
+      auto_install = true,
+      ignore_install = { "javascript" },
       highlight = { enable = true,
         disable = function(lang, buf)
           local max_filesize = 100 * 1024 -- 100 KB
@@ -18,5 +21,4 @@ return {
       indent = { enable = true }
     }
   end
-} 
-
+}

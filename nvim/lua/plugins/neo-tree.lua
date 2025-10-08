@@ -9,10 +9,10 @@ return {
     },
 
     keys = {
-      { "<leader>e",":Neotree toggle<CR>", desc = "Toggle Neo-tree"
-      }},
+      { "<leader>e", ":Neotree toggle<CR>", desc = "Toggle Neo-tree"
+      } },
     config = function()
-      vim.keymap.set('n', '<leader>o', ":Neotree focus<CR>", {desc = " Focus Neotree"})
+      vim.keymap.set('n', '<leader>o', ":Neotree focus<CR>", { desc = " Focus Neotree" })
     end
   },
   {
