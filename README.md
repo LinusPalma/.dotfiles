@@ -1,6 +1,7 @@
 # Ansible Dotfiles & System-configs
 
 ## Motivation
+
 Seit ich das erste Mal über fastfetch gestolpert bin, freue ich mich jedes Mal, wenn ich ein Terminal öffne und die ASCII-Art meiner Distro sehen kann.
 
 Mit einem wachsenden Homelab habe ich jedoch immer wieder das Problem, meine Konfigurationen (zsh, omz, p10k, fastfetch, nvim) auf jedem Server auf dem neuesten Stand zu halten. Dazu kommt die Herausforderung, die Server selbst kontinuierlich zu aktualisieren und zu warten.
@@ -61,15 +62,16 @@ cd ~/.dotfiles/ansible
 3. Playbook ausführen
 
 für Desktop-Clients:
+
 ```bash
 ansible-playbook playbook.yml --tags client --ask-become-pass
 ```
 
 für Server (nur CLI Tools):
+
 ```bash
 ansible-playbook playbook.yml --tags server,common --ask-become-pass
 ```
-
 
 ## Tags
 
@@ -80,7 +82,6 @@ Die wichtigesten Tags solen dabei sein:
 - `server` - Server-only Tools
 - `common` - Überall (zsh, nvim, tmux, etc.)
 
-
 ## Future Features
 
 Profiles via Tags:
@@ -88,5 +89,3 @@ Profiles via Tags:
 - Rice - Profiles: Future-Themed-Rice, Pink-Minimalist-Rice
 - User - Profiles: User Dependent Tags
 - Use-Case - Profiles: Gamin, Working, Coding
-
-
