@@ -18,6 +18,7 @@ return {
 					"bashls",
 					"yamlls",
 					"marksman",
+					"docker_language_server",
 				},
 				automatic_installation = true,
 			})
@@ -119,6 +120,7 @@ return {
 			vim.lsp.enable("bashls")
 			vim.lsp.enable("yamlls")
 			vim.lsp.enable("marksman")
+			vim.lsp.enable("docker_language_server")
 		end,
 	},
 }
