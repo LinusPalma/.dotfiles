@@ -5,9 +5,15 @@
     state: present
   become: yes
   tags: [common]
+#
+# - name: Symlink git config
+#   template:
+#     src: "{{ ansible_env.HOME }}/.dotfiles/git/gitconfig.j2"
+#     dest: "{{ ansible_env.HOME }}/.gitconfig"
+#   tags: [common]
 
-- name:  Symlink git config
+- name: create git config (template)
   template:
-    src: "{{ ansible_env.HOME }}/.dotfiles/git/gitconfig.j2"
+    src: gitconfig.j2
     dest: "{{ ansible_env.HOME }}/.gitconfig"
   tags: [common]
