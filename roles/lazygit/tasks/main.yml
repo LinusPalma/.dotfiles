@@ -8,7 +8,7 @@
     name: lazygit
     state: present
   become: yes
-  tags: [common]
+  tags: [server, client]
   when: >
     ansible_distribution in ["Archlinux"] or
     (ansible_distribution == "Ubuntu" and ansible_distribution_version is version('25.04', '>='))
@@ -41,12 +41,12 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version ('25.04', '<')
-  tags: [common]
+  tags: [server, client]
 
 - name: Install lazygit (Fedora)
   command: dnf copr enable -y dejan/lazygit
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:dejan:lazygit.repo
   become: yes
-  tags: [common]
+  tags: [server, client]
   when: ansible_distribution == "Fedora"

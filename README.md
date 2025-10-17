@@ -76,7 +76,7 @@ ansible-playbook playbook.yml --tags client --ask-become-pass
 für Server (nur CLI Tools):
 
 ```bash
-ansible-playbook playbook.yml --tags server,common --ask-become-pass
+ansible-playbook playbook.yml --tags server --ask-become-pass
 ```
 
 ## Tags

@@ -8,14 +8,14 @@
     name: neovim
     state: present
   become: yes
-  tags: [common]
+  tags: [server, client]
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
 # - name: Add Neovim PPA (Ubunut)
 #   ansible.builtin.apt_repository:
 #     repo: ppa:neovim-ppa/unstable
 #     state: present
-#   tags: [common]
+#   tags: [server, client]
 #   when: ansible_distribution == "Ubuntu"
 
 # - name: Install Neovim from PPA (Ubuntu)
@@ -23,14 +23,14 @@
 #     name: neovim
 #     state: present
 #     update_cache: yes
-#   tags: [common]
+#   tags: [server, client]
 #   when: ansible_distribution == "Ubuntu"
 - name: Install Neovim via snap (Ubuntu)
   ansible.builtin.command:
     cmd: snap install nvim --classic
     creates: /snap/bin/nvim
   become: yes
-  tags: [common]
+  tags: [server, client]
   when: ansible_distribution == "Ubuntu"
 
 #----------------------------------------#
@@ -46,7 +46,7 @@
       - python3.12-venv # only in Ubunut / Debian!
     state: present
   become: yes
-  tags: [common]
+  tags: [server, client]
   when: ansible_distribution in ["Ubuntu", "Debian"]
 #--------------------------------------#
 #   Install Treesitter dependencies    #
@@ -60,7 +60,7 @@
       - git
     state: present
   become: yes
-  tags: [common]
+  tags: [server, client]
   when: ansible_distribution == "Ubuntu"
 
 #---------------------------------------#
@@ -72,7 +72,7 @@
     name: fd
     state: present
   become: yes
-  tags: [common]
+  tags: [server, client]
   when: ansible_distribution in ["Archlinux"]
 
 - name: install fd (Ubuntu, Fedora)
@@ -80,7 +80,7 @@
     name: fd-find
     state: present
   become: yes
-  tags: [common]
+  tags: [server, client]
   when: ansible_distribution in ["Ubuntu","Fedora"]
 
 #-----------------------------#
@@ -91,7 +91,7 @@
   file:
     path: "{{ ansible_env.HOME }}/.config/nvim"
     state: directory
-  tags: [common]
+  tags: [server, client]
 
 ## Symlinking conigs
 
@@ -106,4 +106,4 @@
     dest: "{{ ansible_env.HOME }}/.config/nvim"
     #  state: link
     force: yes
-  tags: [common]
+  tags: [server, client]
