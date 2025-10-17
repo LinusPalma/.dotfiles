@@ -99,7 +99,7 @@
 #   Symlinking configs   #
 #------------------------#
 
-- name: Symling nvim config directory
+- name: Copy nvim config directory
   #  file:
   copy:
     src: ./

@@ -7,7 +7,6 @@
   when: ansible_distribution == "Archlinux"
   tags: [client]
 
-
 ### via plugin: ###
 # - name: Install ashell from AUR (Arch only)
 #   kewlfft.aur.aur:
@@ -18,15 +17,15 @@
 #   tags: [client]
 
 - name: Create ashell config directory
-  file: 
+  file:
     path: "{{ ansible_env.HOME }}/.config/ashell"
     state: directory
   tags: [client]
 
 - name: Symlink ashell config
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/ashell/config.toml"
+    src: "{{ ansible_env.HOME }}/.dotfiles/roles/ashell/files/config.toml"
     dest: "{{ ansible_env.HOME }}/.config/ashell/config.toml"
     state: link
-    force:  yes
+    force: yes
   tags: [client]

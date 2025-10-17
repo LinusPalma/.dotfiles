@@ -20,20 +20,26 @@ Nun ist der Tag gekommen, an dem ich das Tool ausprobiere. Dabei kam mir die Ide
 ## Struktur
 
 ```txt
-~/.dotfiles/
-├── ansible/
-│   ├── playbook.yml
-│   └── roles/
-│       ├── waybar/
-│       ├── hyprland/
-│       ├── zsh/
-│       └── nvim/
-├── waybar/
-│   └── config.toml
-├── hypr/
-│   └── hyprland.conf
-└── nvim/
-    └── init.lua
+.dotfiles/
+├── playbook.yml
+├── roles/
+│   ├── nvim/
+│   │   ├── files/
+│   │   │   └── init.lua
+│   │   └── tasks/
+│   │       └── main.yml
+│   ├── hyprland/
+│   │   ├── files/
+│   │   │   └── hyprland.conf
+│   │   └── tasks/
+│   │       └── main.yml
+│   ├── [...]
+│   └── git/
+│       ├── templates/
+│       │   └── .gitconfig.j2
+│       └── tasks/
+│           └── main.yml
+└── README.md
 ```
 
 ## Setup auf neuer Maschine
@@ -56,7 +62,7 @@ sudo dnf install git ansible
 
 ```bash
 git clone https://github.com/linuspalma/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles/ansible
+cd ~/.dotfiles
 ```
 
 3. Playbook ausführen
