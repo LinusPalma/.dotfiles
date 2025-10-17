@@ -1,9 +1,10 @@
+---
 #-----------------#
 #  install nvim   #
 #-----------------#
 
 - name: Install nvim (Arch, Fedora)
-  package: 
+  package:
     name: neovim
     state: present
   become: yes
@@ -16,7 +17,7 @@
 #     state: present
 #   tags: [common]
 #   when: ansible_distribution == "Ubuntu"
-   
+
 # - name: Install Neovim from PPA (Ubuntu)
 #   ansible.builtin.apt:
 #     name: neovim
@@ -32,10 +33,25 @@
   tags: [common]
   when: ansible_distribution == "Ubuntu"
 
+#----------------------------------------#
+#   Install Node + NPM (dependencies)    #
+#----------------------------------------#
+
+- name: Install Node + NPM
+  package:
+    name:
+      - nodejs
+      - npm
+      - unzip
+      - python3.12-venv # only in Ubunut / Debian!
+    state: present
+  become: yes
+  tags: [common]
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 #--------------------------------------#
 #   Install Treesitter dependencies    #
 #--------------------------------------#
-
+#TODO: add for Arch, debian, fedora
 - name: Install Treesitter deps (Ubuntu)
   package:
     name:
@@ -58,36 +74,36 @@
   become: yes
   tags: [common]
   when: ansible_distribution in ["Archlinux"]
-  
+
 - name: install fd (Ubuntu, Fedora)
   package:
-    name: fd-find 
+    name: fd-find
     state: present
   become: yes
   tags: [common]
   when: ansible_distribution in ["Ubuntu","Fedora"]
-  
+
 #-----------------------------#
 #   create config directory   #
 #-----------------------------#
 
 - name: Create nvim config directory
-  file: 
+  file:
     path: "{{ ansible_env.HOME }}/.config/nvim"
     state: directory
   tags: [common]
 
-## Symlinking conigs 
+## Symlinking conigs
 
 #------------------------#
 #   Symlinking configs   #
 #------------------------#
 
 - name: Symling nvim config directory
-  file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/nvim"
+  #  file:
+  copy:
+    src: ./
     dest: "{{ ansible_env.HOME }}/.config/nvim"
-    state: link
+    #  state: link
     force: yes
   tags: [common]
-
