@@ -3,14 +3,33 @@
 #  install nvim   #
 #-----------------#
 
-- name: Install nvim (Arch, Fedora)
+- name: Install nvim (Arch)
   package:
     name: neovim
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Archlinux", "Fedora"]
+  when: ansible_distribution in ["Archlinux"]
 
+  # TODO: community module for copr
+- name: Install nvim (Fedora)
+  ansible.builtin.dnf:
+    name:
+      - neovim
+      - python3-neovim
+    state: present
+    use_backend: dnf4
+  become: yes
+  tags: [server, client]
+  when: ansible_distribution == "Fedora"
+
+# - name: Install nvim (Fedora)
+# command: sudo dnf install -y neovim python3-neovim
+# args:
+# creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org
+# become: yes
+# tags: [server, client]
+# when: ansible_distribution in ["Fedora"]
 # - name: Add Neovim PPA (Ubunut)
 #   ansible.builtin.apt_repository:
 #     repo: ppa:neovim-ppa/unstable
@@ -75,13 +94,24 @@
   tags: [server, client]
   when: ansible_distribution in ["Archlinux"]
 
-- name: install fd (Ubuntu, Fedora)
+- name: install fd (Ubuntu)
   package:
     name: fd-find
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Ubuntu","Fedora"]
+  when: ansible_distribution in ["Ubuntu"]
+
+- name: install fd (Fedora)
+  ansible.builtin.dnf:
+    name:
+      - fd-find
+      - unzip
+    state: present
+    use_backend: dnf4
+  become: yes
+  tags: [server, client]
+  when: ansible_distribution == "Fedora"
 
 #-----------------------------#
 #   create config directory   #
@@ -89,21 +119,27 @@
 
 - name: Create nvim config directory
   file:
-    path: "{{ ansible_env.HOME }}/.config/nvim"
+    path: "/home/{{ target_user | default(ansible_user_id) }}/.config/nvim"
     state: directory
+  become: yes
+  become_user: "{{ target_user | default(ansible_user_id)}}"
   tags: [server, client]
-
-## Symlinking conigs
 
 #------------------------#
 #   Symlinking configs   #
 #------------------------#
 
+#------------------#
+#   copy configs   #
+#------------------#
+
 - name: Copy nvim config directory
   #  file:
   copy:
     src: ./
-    dest: "{{ ansible_env.HOME }}/.config/nvim"
+    dest: "/home/{{ target_user | default(ansible_user_id) }}/.config/nvim"
     #  state: link
     force: yes
+  become: yes
+  become_user: "{{ target_user | default(ansible_user_id) }}"
   tags: [server, client]

@@ -4,8 +4,21 @@
     name: git
     state: present
   become: yes
-  tags: [common]
-#
+  tags: [server, client]
+  when: ansible_distribution in ["Ubuntu", "Archlinux"]
+
+- name: Install git (fedora)
+  # ansible.builtin.dnf:
+  ansible.builtin.dnf:
+    name: git
+    state: present
+    use_backend: dnf4
+  become: yes
+  tags: [server, client]
+
+  when: ansible_distribution == "Fedora"
+
+  #
 # - name: Symlink git config
 #   template:
 #     src: "{{ ansible_env.HOME }}/.dotfiles/git/gitconfig.j2"
