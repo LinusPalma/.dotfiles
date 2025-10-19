@@ -1,79 +1,24 @@
 ---
-#------------------#
-#  installations   #
-#------------------#
+#----------------------------------#
+#  installations: zsh & packages   #
+#----------------------------------#
 
-### --- all distros --- ###
-- name: Install zsh
+### --- Arch --- ###
+- name: Install zsh, fastfetch, fzf on Arch
   package:
     name: [zsh, fastfetch, fzf]
     state: present
   when: ansible_distribution in ["Archlinux"]
   tags: [server, client]
 
-- name: Install zsh on Ubuntu
-  package:
-    name: [zsh, fzf]
-    state: present
-  when: ansible_distribution == "Ubuntu"
-  tags: [server, client]
-### --- FEDORA --- ###
-- name: setup ZSH on Fedora
+### --- Ubuntu --- ###
+- name: Install zsh, fastfetch, fzf on Ubuntu
   block:
-    - name: Install zsh
-      ansible.builtin.dnf:
-        name: [zsh, fastfetch]
+    - name: Install zsh + fzf on Ubuntu
+      package:
+        name: [zsh, fzf]
         state: present
-        use_backend: dnf4
-  when: ansible_distribution == "Fedora"
-  tags: [server, client]
 
-### --- OMZ --- ###
-- name: Install OMZ for target user
-  shell: curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s -- --unattended
-  args:
-    creates: "/home/{{ target_user | default(ansible_user_id) }}/.oh-my-zsh"
-  become: yes
-  become_user: "{{ target_user | default(ansible_user_id) }}"
-  environment:
-    HOME: "/home/{{ target_user | default(ansible_user_id) }}"
-  when: ansible_distribution in ["Archlinux", "Ubuntu", "Fedora"]
-  tags: [server, client]
-
-- name: Install zsh-autosuggestions for target user
-  ansible.builtin.git:
-    repo: https://github.com/zsh-users/zsh-autosuggestions
-    dest: "/home/{{ target_user | default(ansible_user) }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-    version: master
-  become: yes
-  become_user: "{{ target_user | default(ansible_user) }}"
-  when: ansible_distribution in ["Archlinux", "Ubuntu", "Fedora"]
-  tags: [server, client]
-
-- name: Install zsh-syntax-highlighting
-  ansible.builtin.git:
-    repo: https://github.com/zsh-users/zsh-syntax-highlighting
-    dest: "/home/{{ target_user | default(ansible_user) }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-  become: yes
-  become_user: "{{ target_user | default(ansible_user) }}"
-  when: ansible_distribution in ["Archlinux", "Ubuntu", "Fedora"]
-  tags: [server, client]
-
-- name: Install p10k - omz
-  ansible.builtin.git:
-    repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "/home/{{ target_user | default(ansible_user) }}/.oh-my-zsh/custom/themes/powerlevel10k"
-    depth: 1
-    version: master
-  become: yes
-  become_user: "{{ target_user | default(ansible_user) }}"
-  when: ansible_distribution in ["Archlinux", "Ubuntu", "Fedora"]
-  tags: [server, client]
-
-### --- Fastfetch (Ubuntu) ###
-
-- name: Install Fastfetch on Ubuntu (via .deb)
-  block:
     - name: Get latest Fastfetch release info from GitHub
       uri:
         url: https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest
@@ -106,36 +51,71 @@
   when: ansible_distribution == "Ubuntu"
   tags: [server, client]
 
-#---------------------#
-#  create Directorys  #
-#---------------------#
-- name: make zsh default
-  user:
-    name: "{{ target_user | default(ansible_user_id) }}"
-    shell: /usr/bin/zsh
-  become: yes
+### --- FEDORA --- ###
+- name: setup ZSH on Fedora
+  block:
+    - name: Install zsh
+      ansible.builtin.dnf:
+        name: [zsh, fastfetch, fzf]
+        state: present
+        use_backend: dnf4
+  when: ansible_distribution == "Fedora"
   tags: [server, client]
 
-  # - name: create Zsh config directorys
-# TODO: copy config files
-- name: Copy zsh config
-  copy:
-    src: ./.zshrc
-    dest: "/home/{{ target_user | default(ansible_user_id) }}/.zshrc"
-    force: yes
+### --- OMZ --- ###
+- name: Install OMZ for target user
+  block:
+    - name: Install OMZ
+      shell: curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s -- --unattended
+      args:
+        creates: "/home/{{ target_user | default(ansible_user_id) }}/.oh-my-zsh"
+      environment:
+        HOME: "/home/{{ target_user | default(ansible_user_id) }}"
+
+    ## -- plugins -- ##
+    - name: Install zsh-autosuggestions for target user
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions
+        dest: "/home/{{ target_user | default(ansible_user) }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        version: master
+
+    - name: Install zsh-syntax-highlighting
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting
+        dest: "/home/{{ target_user | default(ansible_user) }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+
+    - name: Install p10k - omz
+      ansible.builtin.git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        dest: "/home/{{ target_user | default(ansible_user) }}/.oh-my-zsh/custom/themes/powerlevel10k"
+        depth: 1
+        version: master
   become: yes
   become_user: "{{ target_user | default(ansible_user_id) }}"
+  when: ansible_distribution in ["Archlinux", "Ubuntu", "Fedora"]
   tags: [server, client]
 
-  # TODO: copy omz config
-  #
-  #
-  # TODO: copy p10k config
-- name: Copy p10k config
-  copy:
-    src: ./.p10k.zsh
-    dest: "/home/{{ target_user | default(ansible_user_id) }}/.p10k.zsh"
-    force: yes
+#---------------------------#
+#  configs & default shell  #
+#---------------------------#
+
+- name: Make zsh default & copy configs
+  block:
+    - name: make zsh default
+      user:
+        name: "{{ target_user | default(ansible_user_id) }}"
+        shell: /usr/bin/zsh
+    - name: copy zsh configs
+      copy:
+        src: ./.zshrc
+        dest: "/home/{{ target_user | default(ansible_user_id) }}/.zshrc"
+        force: yes
+    - name: copy p10k configs
+      copy:
+        src: ./.p10k.zsh
+        dest: "/home/{{ target_user | default(ansible_user_id) }}/.p10k.zsh"
+        force: yes
   become: yes
   become_user: "{{ target_user | default(ansible_user_id) }}"
+  when: ansible_distribution in ["Archlinux", "Ubuntu", "Fedora"]
   tags: [server, client]
