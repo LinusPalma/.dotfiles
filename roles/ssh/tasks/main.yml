@@ -1,0 +1,7 @@
+---
+- name: install sshpass
+  package:
+    name: sshpass
+    state: present
+  when: ansible_distribution in ["Ubuntu"]
+  tags: [server]
