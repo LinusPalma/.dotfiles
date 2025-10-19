@@ -1,0 +1,14 @@
+---
+- name: Create Kitty config directory
+  file:
+    path: "/home/{{ target_user }}/.config/kitty"
+    state: directory
+  tags: [client]
+
+- name: Kitty config symlink
+  file:
+    src: "/home/{{ target_user }}/.dotfiles/roles/kitty/files"
+    dest: "/home/{{ target_user }}/.config/kitty"
+    state: link
+    force: true
+  tags: [client]
