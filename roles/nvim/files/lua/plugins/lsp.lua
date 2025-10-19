@@ -16,7 +16,7 @@ return {
 					"pyright",
 					"ansiblels",
 					"bashls",
-					"yamlls",
+					-- "yamlls",
 					"marksman",
 					"docker_language_server",
 				},
@@ -118,7 +118,7 @@ return {
 			vim.lsp.enable("pyright")
 			vim.lsp.enable("ansiblels")
 			vim.lsp.enable("bashls")
-			vim.lsp.enable("yamlls")
+			-- vim.lsp.enable("yamlls")
 			vim.lsp.enable("marksman")
 			vim.lsp.enable("docker_language_server")
 		end,
