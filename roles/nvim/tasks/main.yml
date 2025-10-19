@@ -129,11 +129,21 @@
 #   Symlinking configs   #
 #------------------------#
 
+- name: Symlink nvim Config for clients
+  file:
+    src: "/home/{{ target_user | default(ansible_user_id) }}/.dotfiles/roles/nvim/files"
+    dest: "/home/{{ target_user | default(ansible_user_id) }}/.config/nvim"
+    state: link
+    force: yes
+#  become: yes
+  become_user: "{{ target_user | default(ansible_user_id)}}"
+  tags: [client]
+
 #------------------#
 #   copy configs   #
 #------------------#
 
-- name: Copy nvim config directory
+- name: Copy nvim config directory for servers
   #  file:
   copy:
     src: ./
@@ -142,4 +152,4 @@
     force: yes
   become: yes
   become_user: "{{ target_user | default(ansible_user_id) }}"
-  tags: [server, client]
+  tags: [server]
