@@ -5,7 +5,7 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Ubuntu", "Archlinux"]
+  when: ansible_distribution in ["Debian", "Ubuntu", "Archlinux"]
 
 - name: Install git (fedora)
   # ansible.builtin.dnf:

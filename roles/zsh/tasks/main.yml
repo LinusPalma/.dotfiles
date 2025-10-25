@@ -11,7 +11,7 @@
   when: ansible_distribution in ["Archlinux"]
   tags: [server, client]
 
-### --- Ubuntu --- ###
+### --- Ubuntu, Debian --- ###
 - name: Install zsh, fastfetch, fzf on Ubuntu
   block:
     - name: Install zsh + fzf on Ubuntu
@@ -44,11 +44,13 @@
       file:
         path: "/tmp/fastfetch-linux-amd64.deb"
         state: absent
+
     - name: disable welcome Text (motd)
       file:
         path: "/home/{{ target_user | default(ansible_user_id)}}/.hushlogin"
         state: touch
-  when: ansible_distribution == "Ubuntu"
+
+  when: ansible_distribution in ["Debian",  "Ubuntu"]
   tags: [server, client]
 
 ### --- FEDORA --- ###
@@ -91,8 +93,8 @@
         depth: 1
         version: master
   become: yes
-  become_user: "{{ target_user | default(ansible_user_id) }}"
-  when: ansible_distribution in ["Archlinux", "Ubuntu", "Fedora"]
+  # become_user: "{{ target_user | default(ansible_user_id) }}"
+  when: ansible_distribution in ["Archlinux", "Debian", "Ubuntu", "Fedora"]
   tags: [server, client]
 
 #---------------------------#
@@ -116,6 +118,6 @@
         dest: "/home/{{ target_user | default(ansible_user_id) }}/.p10k.zsh"
         force: yes
   become: yes
-  become_user: "{{ target_user | default(ansible_user_id) }}"
-  when: ansible_distribution in ["Archlinux", "Ubuntu", "Fedora"]
+  # become_user: "{{ target_user | default(ansible_user_id) }}"
+  when: ansible_distribution in ["Archlinux", "Debian", "Ubuntu", "Fedora"]
   tags: [server, client]

@@ -21,12 +21,12 @@
   #  vars:
   #    target_user: "{{ target_user | default(ansible_user_id) }}"
   roles:
-    - ashell
     - git
+    - zsh
+    - ashell
     - hyprland
     - hyprlock
     - nvim
     - lazygit
     - kitty
-    - zsh
     - ssh
