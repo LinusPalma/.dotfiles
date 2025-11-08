@@ -132,6 +132,17 @@
   tags: [server, client]
   when: ansible_distribution == "Ubuntu"
 
+#--------------------------------------#
+#   Install depencencies nvim snacks   #
+#--------------------------------------#
+
+- name: install imageMagick
+  package:
+    name: [imagemagick, ghostscript]
+    state: present
+  become: yes
+  tags: [client, server]
+  when: ansible_distribution in ["Archlinux"]
 #---------------------------------------#
 #   Install fd (depencencie telescope   #
 #---------------------------------------#
