@@ -65,7 +65,13 @@ git clone https://github.com/linuspalma/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
-3. Playbook ausführen
+3. collections installieren
+
+```zsh
+ansible-galaxy collection install -r requirements.yml
+```
+
+4. Playbook ausführen
 
 für Desktop-Clients:
 

@@ -1,6 +1,6 @@
 - name: Setup dotfiles
   hosts: all
-  become: yes
+  # become: yes
 
   roles:
-    - zsh
+    - ags
