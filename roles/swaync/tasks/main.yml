@@ -1,0 +1,31 @@
+# ------------ #
+# Installation #
+# ------------ #
+
+- name: install SwayNC
+  package:
+    name: swaync
+    state: present
+  become: yes
+  tags: [client]
+  when: ansible_distribution == "Archlinux"
+
+# ------------- #
+# Configuration #
+# ------------- #
+
+- name: create .conf direcotory
+  file:
+    path: "{{ ansible_env.HOME }}/.config/swaync"
+    state: directory
+  tags: [client]
+  when: ansible_distribution == "Archlinux"
+
+- name: symlinc swaync config
+  file:
+    src: "{{ ansible_env.HOME }}/.dotfiles/swaync/files"
+    dest: "{{ ansible_env.HOME }}/.config/swaync"
+    state: link
+    force: yes
+  tags: [client]
+  when: ansible_distribution == "Archlinux"
