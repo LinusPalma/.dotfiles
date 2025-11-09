@@ -8,6 +8,7 @@ return {
 		---@type render.md.UserConfig
 		opts = {
 			render_modes = true,
+			file_types = { "markdown", "vimwiki" },
 		},
 	},
 }
