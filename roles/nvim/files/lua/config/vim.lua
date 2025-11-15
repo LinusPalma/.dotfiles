@@ -21,3 +21,7 @@ vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = " Zeile nach oben" })
 
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = " Zeile nach unten" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = " Zeile nach oben" })
+
+vim.opt.breakindent = true
+vim.opt.breakindentopt = "shift:2"
+vim.opt.showbreak = "↪ "
