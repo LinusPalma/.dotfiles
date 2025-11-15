@@ -24,6 +24,13 @@
 #------------#
 #Installation#
 #------------#
+- name: Install AGS dependencies
+  become: yes
+  pacman:
+    name:
+      - dart-sass
+    state: present
+  tags: [client]
 
 - name: Install aylurs-gtk-shell from AUR
   kewlfft.aur.aur:
