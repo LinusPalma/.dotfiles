@@ -1,0 +1,87 @@
+control-center {
+  background: transparent;
+  background-color: transparent;
+}
+
+control-center-box {
+  background: rgba(40, 40, 40, 0.95);
+  border-radius: 20px;
+  padding: 16px;
+  margin: 0px;
+}
+
+title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 4px 8px 8px 8px;
+  color: #ffffff;
+}
+
+controls {
+  background: transparent;
+  margin-top: 12px;
+}
+
+button-row {
+  background: transparent;
+  margin-bottom: 12px;
+}
+
+control-button {
+  padding: 0px;
+  margin: 6px;
+  background: rgba(70, 70, 70, 0.8);
+  border-radius: 16px;
+  min-width: 140px;
+  min-height: 140px;
+  transition: all 200ms ease;
+
+  &:hover {
+    background: rgba(90, 90, 90, 0.9);
+  }
+
+  &:active {
+    background: rgba(60, 60, 60, 0.95);
+  }
+
+  label {
+    font-size: 32px;
+    margin: 0px;
+  }
+}
+
+slider-container {
+  background: rgba(70, 70, 70, 0.8);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+slider-label {
+  font-size: 16px;
+  color: #ffffff;
+  margin: 0px 0px 8px 0px;
+}
+
+brightness-slider {
+  min-height: 8px;
+  border-radius: 4px;
+
+  trough {
+    min-height: 8px;
+    border-radius: 4px;
+    background: rgba(50, 50, 50, 0.8);
+  }
+
+  highlight {
+    background: #0a84ff;
+    border-radius: 4px;
+  }
+
+  slider {
+    min-width: 20px;
+    min-height: 20px;
+    border-radius: 10px;
+    background: #ffffff;
+  }
+}

@@ -3,7 +3,8 @@ $fg-color: #{"@theme_fg_color"};
 $bg-color: #{"@theme_bg_color"};
 
 // Import widget styles
-@use "./widget/clock/style.scss";
+@use "./widget/clock/style.scss" as *;
+@use "./widget/control-center/style.scss" as *;
 
 window.Bar {
   background: transparent;

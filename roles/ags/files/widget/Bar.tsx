@@ -6,12 +6,13 @@ import { readFile } from "ags/file"
 import Battery from "gi://AstalBattery"
 import { createBinding } from "ags"
 import { VerticalClock } from "./clock"
+import { toggleControlCenter } from "./control-center/ControlCenter"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const date = createPoll("", 1000, "date +%d.%m.%Y")
   const battery = Battery.get_default()
   const percentage = createBinding(battery, "percentage")
-  const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor
+  const { TOP, LEFT, BOTTOM } = Astal.WindowAnchor
 
   // Home Assistant Token aus .env laden
   const envContent = readFile(`./.env`)
@@ -58,6 +59,12 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           orientation={Gtk.Orientation.VERTICAL}
           valign={Gtk.Align.START}
         >
+          <button onClicked={(self) => {
+            toggleControlCenter()
+            self.grab_focus()
+          }}>
+            <label label="🏠" />
+          </button>
           <button onClicked={toggleBalkonLight}>
             <label label="💡" />
           </button>

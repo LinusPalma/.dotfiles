@@ -29,12 +29,16 @@
   pacman:
     name:
       - dart-sass
+      - jq
     state: present
   tags: [client]
 
 - name: Install aylurs-gtk-shell from AUR
   kewlfft.aur.aur:
-    name: aylurs-gtk-shell-git
+    name:
+      - aylurs-gtk-shell-git
+      - libastal-meta
+
     use: yay
     state: present
   become: yes
