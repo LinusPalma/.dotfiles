@@ -3,9 +3,14 @@ import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { execAsync } from "ags/process"
 import { createPoll } from "ags/time"
 import { readFile } from "ags/file"
+import Battery from "gi://AstalBattery"
+import { createBinding } from "ags"
+import { VerticalClock } from "./clock"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const date = createPoll("", 1000, "date +%d.%m.%Y")
+  const battery = Battery.get_default()
+  const percentage = createBinding(battery, "percentage")
   const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor
 
   // Home Assistant Token aus .env laden
@@ -43,29 +48,37 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       class="Bar"
       gdkmonitor={gdkmonitor}
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
-      anchor={TOP | LEFT | RIGHT}
-      // anchor={LEFT | TOP | BOTTOM}
+      // anchor={TOP | LEFT | RIGHT}
+      anchor={LEFT | TOP | BOTTOM}
       application={app}
     >
-      <centerbox cssName="centerbox">
-        <box $type="start" halign={Gtk.Align.START}>
+      <centerbox cssName="centerbox" orientation={Gtk.Orientation.VERTICAL}>
+        <box
+          $type="start"
+          orientation={Gtk.Orientation.VERTICAL}
+          valign={Gtk.Align.START}
+        >
           <button onClicked={toggleBalkonLight}>
-            <label label="💡 Balkon" />
+            <label label="💡" />
           </button>
+          <VerticalClock />
         </box>
 
-        <box $type="center" />
+        <box $type="center" orientation={Gtk.Orientation.VERTICAL} />
 
-        <menubutton
+        <box
           $type="end"
-          // hexpand
-          halign={Gtk.Align.CENTER}
+          orientation={Gtk.Orientation.VERTICAL}
+          valign={Gtk.Align.END}
         >
-          <label label={date} />
-          <popover>
-            <Gtk.Calendar />
-          </popover>
-        </menubutton>
+          <label label={percentage((p) => `🔋 ${Math.round(p * 100)}%`)} />
+          <menubutton valign={Gtk.Align.CENTER}>
+            <label label={date} />
+            <popover>
+              <Gtk.Calendar />
+            </popover>
+          </menubutton>
+        </box>
       </centerbox>
     </window>
   )

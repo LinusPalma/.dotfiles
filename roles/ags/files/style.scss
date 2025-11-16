@@ -2,6 +2,9 @@
 $fg-color: #{"@theme_fg_color"};
 $bg-color: #{"@theme_bg_color"};
 
+// Import widget styles
+@use "./widget/clock/style.scss";
+
 window.Bar {
   background: transparent;
   color: $fg-color;
