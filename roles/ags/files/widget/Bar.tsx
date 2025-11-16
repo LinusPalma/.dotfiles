@@ -9,21 +9,9 @@ import { VerticalClock } from "./modules/clock"
 import { toggleControlCenter } from "./home-center/home-center"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
-  const date = createPoll("", 1000, "date +%d.%m.%Y")
   const battery = Battery.get_default()
   const percentage = createBinding(battery, "percentage")
   const { TOP, LEFT, BOTTOM } = Astal.WindowAnchor
-
-  // Home Assistant Token aus .env laden
-  const envContent = readFile(`./.env`)
-  const lines = envContent.split("\n")
-  let HASS_TOKEN = ""
-  for (const line of lines) {
-    if (line.startsWith("HASS_TOKEN=")) {
-      HASS_TOKEN = line.substring(11).trim()
-      break
-    }
-  }
 
   function toggleBalkonLight() {
     execAsync([

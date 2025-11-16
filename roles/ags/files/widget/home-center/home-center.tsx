@@ -1,6 +1,7 @@
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { createState } from "ags"
 import app from "ags/gtk4/app"
+import SceneToggle from "./functions/scenes"
 
 const [isVisible, setIsVisible] = createState(false)
 
@@ -24,12 +25,8 @@ export default function ControlCenter(gdkmonitor: Gdk.Monitor) {
         <box orientation={Gtk.Orientation.VERTICAL} cssName="controls">
           {/* Buttons */}
           <box orientation={Gtk.Orientation.HORIZONTAL} cssName="button-row">
-            <button cssName="control-button">
-              <label label="💡" />
-            </button>
-            <button cssName="control-button">
-              <label label="🌡️" />
-            </button>
+            <SceneToggle sceneName="good_night" icon="" />
+            <SceneToggle sceneName="abend" icon="☀️" />
           </box>
 
           <box orientation={Gtk.Orientation.HORIZONTAL} cssName="button-row">
