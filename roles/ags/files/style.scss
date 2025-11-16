@@ -3,8 +3,8 @@ $fg-color: #{"@theme_fg_color"};
 $bg-color: #{"@theme_bg_color"};
 
 // Import widget styles
-@use "./widget/clock/style.scss" as *;
-@use "./widget/control-center/style.scss" as *;
+@use "./widget/modules/clock/style.scss" as *;
+@use "./widget/home-center/style.scss" as *;
 
 window.Bar {
   background: transparent;
@@ -20,5 +20,14 @@ window.Bar {
   button {
     border-radius: 8px;
     margin: 2px;
+  }
+
+  menubutton {
+    background-color: transparent;
+    border: none;
+    
+    &:hover {
+      background-color: transparent;
+    }
   }
 }

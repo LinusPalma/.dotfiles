@@ -1,0 +1,23 @@
+// Clock Widget Styles
+vertical-clock {
+  background-color: transparent;
+  
+  &:hover {
+    background-color: transparent;
+  }
+
+  > box {
+    border-radius: 8px;
+    padding: 8px;
+    margin: 4px;
+  }
+  
+  clock {
+    font-size: 32px;
+    font-weight: bolder;
+  }
+
+  date {
+    font-size: 20px;
+  }
+}

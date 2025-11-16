@@ -5,8 +5,8 @@ import { createPoll } from "ags/time"
 import { readFile } from "ags/file"
 import Battery from "gi://AstalBattery"
 import { createBinding } from "ags"
-import { VerticalClock } from "./clock"
-import { toggleControlCenter } from "./control-center/ControlCenter"
+import { VerticalClock } from "./modules/clock"
+import { toggleControlCenter } from "./home-center/home-center"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const date = createPoll("", 1000, "date +%d.%m.%Y")
@@ -59,10 +59,12 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           orientation={Gtk.Orientation.VERTICAL}
           valign={Gtk.Align.START}
         >
-          <button onClicked={(self) => {
-            toggleControlCenter()
-            self.grab_focus()
-          }}>
+          <button
+            onClicked={(self) => {
+              toggleControlCenter()
+              self.grab_focus()
+            }}
+          >
             <label label="🏠" />
           </button>
           <button onClicked={toggleBalkonLight}>
@@ -79,12 +81,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           valign={Gtk.Align.END}
         >
           <label label={percentage((p) => `🔋 ${Math.round(p * 100)}%`)} />
-          <menubutton valign={Gtk.Align.CENTER}>
-            <label label={date} />
-            <popover>
-              <Gtk.Calendar />
-            </popover>
-          </menubutton>
         </box>
       </centerbox>
     </window>
