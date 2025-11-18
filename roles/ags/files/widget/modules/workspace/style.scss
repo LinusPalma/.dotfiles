@@ -1,0 +1,13 @@
+workspaces {
+  // Container styling
+}
+
+workspace {
+  min-width: 30px;
+  min-height: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+workspace.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
