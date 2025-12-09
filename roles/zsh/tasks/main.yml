@@ -121,3 +121,17 @@
   # become_user: "{{ target_user | default(ansible_user_id) }}"
   when: ansible_distribution in ["Archlinux", "Debian", "Ubuntu", "Fedora"]
   tags: [server, client]
+
+- name: copy fastfetch configs
+  copy:
+    src: ./fastfetch/config-client.jsonc
+    dest: "/home/{{ target_user | default(ansible_user_id) }}/.config/fastfetch/config.jsonc"
+    force: yes
+  tags: [client]
+
+- name: copy fastfetch configs
+  copy:
+    src: ./fastfetch/config-server.jsonc
+    dest: "/home/{{ target_user | default(ansible_user_id) }}/.config/fastfetch/config.jsonc"
+    force: yes
+  tags: [server]

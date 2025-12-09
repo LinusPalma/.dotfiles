@@ -2,7 +2,31 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-fastfetch
+
+# würde es erlauben, bei einem rezize fastfetch nochmal auszuführen...
+#TRAPWINCH() {
+#fastfetch
+#}
+_run_fastfetch(){
+  if [[ $COLUMNS -gt 128 ]]; then
+  fastfetch
+  elif [[ $COLUMNS -ge 100 ]]; then
+  fastfetch --logo-type small
+  elif [[ $COLUMNS -ge 80 ]]; then
+  fastfetch --logo-type none
+  else
+  :
+  fi
+}
+#beim starten:
+_run_fastfetch
+
+#beim resize:
+# TRAPWINCH(){
+#   _run_fastfetch
+# }
+
+
 # FZF Setup
 if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
     # Ubuntu/Debian
