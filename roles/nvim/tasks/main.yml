@@ -143,13 +143,15 @@
   become: yes
   tags: [client, server]
   when: ansible_distribution in ["Archlinux"]
-#---------------------------------------#
-#   Install fd (depencencie telescope   #
-#---------------------------------------#
+#-----------------------------------#
+#   Install depencencie telescope   #
+#-----------------------------------#
 
 - name: install fd (Arch)
   package:
-    name: fd
+    name:
+      - fd
+      - ripgrep
     state: present
   become: yes
   tags: [server, client]
@@ -157,7 +159,9 @@
 
 - name: install fd (Ubuntu)
   package:
-    name: fd-find
+    name:
+      - fd-find
+      #- ripgrep #TODO: test on server
     state: present
   become: yes
   tags: [server, client]
@@ -168,6 +172,7 @@
     name:
       - fd-find
       - unzip
+      #- ripgrep #TODO: test on server
     state: present
     use_backend: dnf4
   become: yes
