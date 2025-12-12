@@ -8,17 +8,14 @@
 
 - name: Create Hyprland config directory
   file:
-    # path: "{{ ansible_env.HOME }}/.config/hypr"
     path: "/home/{{ target_user }}/.config/hypr"
     state: directory
   tags: [client]
 
 - name: Hyprland config symlink
   file:
-    # src: "{{ ansible_env.HOME }}/.dotfiles/roles/hyprland/files/hyprland.conf"
     src: "/home/{{ target_user }}/.dotfiles/roles/hyprland/files/hyprland.conf"
     dest: "/home/{{ target_user }}/.config/hypr/hyprland.conf"
-    # dest: "{{ ansible_env.HOME }}/.config/hypr/hyprland.conf"
     state: link
     force: yes
   tags: [client]

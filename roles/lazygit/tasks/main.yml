@@ -10,8 +10,8 @@
   become: yes
   tags: [server, client]
   when: >
-    ansible_distribution in ["Archlinux"] or
-    (ansible_distribution == "Ubuntu" and ansible_distribution_version is version('25.04', '>='))
+    ansible_facts['distribution'] in ["Archlinux"] or
+    (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] is version('25.04', '>='))
 
 - name: Install lazygit (Ubuntu > 25.04)
   block:
@@ -39,8 +39,8 @@
         remote_src: yes
   become: yes
   when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version ('25.04', '<')
+    - ansible_facts['distribution'] == "Ubuntu"
+    - ansible_facts['distribution_version'] is version ('25.04', '<')
   tags: [server, client]
 
 - name: Install lazygit (Fedora)
@@ -49,4 +49,4 @@
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:dejan:lazygit.repo
   become: yes
   tags: [server, client]
-  when: ansible_distribution == "Fedora"
+  when: ansible_facts['distribution'] == "Fedora"

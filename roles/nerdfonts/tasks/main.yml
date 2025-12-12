@@ -1,0 +1,10 @@
+---
+- name: Install Nerd Fonts via yay
+  become: yes
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    name:
+      - ttf-jetbrains-mono-nerd
+    state: present
+    use: yay
+  tags: [client]

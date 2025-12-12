@@ -3,5 +3,5 @@
   package:
     name: sshpass
     state: present
-  when: ansible_distribution in ["Ubuntu"]
+  when: ansible_facts['distribution'] in ["Ubuntu"]
   tags: [server]

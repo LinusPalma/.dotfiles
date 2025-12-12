@@ -1,8 +1,8 @@
 ---
 - name: Symlink Hyprlock
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/roles/hyprlock/files/hyprlock.conf"
-    dest: "{{ ansible_env.HOME }}/.config/hypr/hyprlock.conf"
+    src: "/home/{{ target_user }}/.dotfiles/roles/hyprlock/files/hyprlock.conf"
+    dest: "/home/{{ target_user }}/.config/hypr/hyprlock.conf"
     state: link
     force: yes
   tags: [client]

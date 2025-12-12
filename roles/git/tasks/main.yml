@@ -5,10 +5,10 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Debian", "Ubuntu", "Archlinux"]
+  # when: ansible_facts['distribution'] in ["Debian", "Ubuntu", "Archlinux"]
+  when: ansible_facts['distribution'] in ["Debian", "Ubuntu", "Archlinux"]
 
 - name: Install git (fedora)
-  # ansible.builtin.dnf:
   ansible.builtin.dnf:
     name: git
     state: present
@@ -16,17 +16,11 @@
   become: yes
   tags: [server, client]
 
-  when: ansible_distribution == "Fedora"
-
-  #
-# - name: Symlink git config
-#   template:
-#     src: "{{ ansible_env.HOME }}/.dotfiles/git/gitconfig.j2"
-#     dest: "{{ ansible_env.HOME }}/.gitconfig"
-#   tags: [common]
+  # when: ansible_facts['distribution'] == "Fedora"
+  when: ansible_facts['distribution'] == "Fedora"
 
 - name: create git config (template)
   template:
     src: gitconfig.j2
-    dest: "{{ ansible_env.HOME }}/.gitconfig"
+    dest: "/home/{{ target_user }}/.gitconfig"
   tags: [server, client]

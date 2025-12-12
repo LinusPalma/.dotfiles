@@ -9,7 +9,7 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Archlinux"]
+  when: ansible_facts['distribution'] in ["Archlinux"]
 
   # TODO: community module for copr
 - name: Install nvim (Fedora)
@@ -21,7 +21,7 @@
     use_backend: dnf4
   become: yes
   tags: [server, client]
-  when: ansible_distribution == "Fedora"
+  when: ansible_facts['distribution'] == "Fedora"
 
 # - name: Install nvim (Fedora)
 # command: sudo dnf install -y neovim python3-neovim
@@ -29,13 +29,13 @@
 # creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org
 # become: yes
 # tags: [server, client]
-# when: ansible_distribution in ["Fedora"]
+# when: ansible_facts['distribution'] in ["Fedora"]
 # - name: Add Neovim PPA (Ubunut)
 #   ansible.builtin.apt_repository:
 #     repo: ppa:neovim-ppa/unstable
 #     state: present
 #   tags: [server, client]
-#   when: ansible_distribution == "Ubuntu"
+#   when: ansible_facts['distribution'] == "Ubuntu"
 
 # - name: Install Neovim from PPA (Ubuntu)
 #   ansible.builtin.apt:
@@ -43,14 +43,14 @@
 #     state: present
 #     update_cache: yes
 #   tags: [server, client]
-#   when: ansible_distribution == "Ubuntu"
+#   when: ansible_facts['distribution'] == "Ubuntu"
 - name: Install Neovim via snap (Ubuntu)
   ansible.builtin.command:
     cmd: snap install nvim --classic
     creates: /snap/bin/nvim
   become: yes
   tags: [server, client]
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 ### --- Debian --- ###
 - name: Install Neovim via AppImage
@@ -75,13 +75,13 @@
 
     - name: Add nvim to PATH in .zshrc
       ansible.builtin.lineinfile:
-        path: "/home/{{ target_user | default(ansible_user_id) }}/.zshrc"
+        path: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.zshrc"
         line: 'export PATH="$PATH:/opt/nvim/"'
         create: yes
         state: present
 
   tags: [server, client]
-  when: ansible_distribution == "Debian"
+  when: ansible_facts['distribution'] == "Debian"
 
 #----------------------------------------#
 #   Install Node + NPM (dependencies)    #
@@ -96,7 +96,7 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts['distribution'] in ["Ubuntu", "Debian"]
 
 - name: Install Node + NPM
   package:
@@ -105,7 +105,7 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Ubuntu"]
+  when: ansible_facts['distribution'] in ["Ubuntu"]
 
 - name: Install Python dependencies for Debian
   package:
@@ -115,7 +115,7 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution == "Debian"
+  when: ansible_facts['distribution'] == "Debian"
 
 #--------------------------------------#
 #   Install Treesitter dependencies    #
@@ -130,7 +130,7 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 #--------------------------------------#
 #   Install depencencies nvim snacks   #
@@ -142,7 +142,7 @@
     state: present
   become: yes
   tags: [client, server]
-  when: ansible_distribution in ["Archlinux"]
+  when: ansible_facts['distribution'] in ["Archlinux"]
 #-----------------------------------#
 #   Install depencencie telescope   #
 #-----------------------------------#
@@ -155,7 +155,7 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Archlinux"]
+  when: ansible_facts['distribution'] in ["Archlinux"]
 
 - name: install fd (Ubuntu)
   package:
@@ -165,7 +165,7 @@
     state: present
   become: yes
   tags: [server, client]
-  when: ansible_distribution in ["Ubuntu"]
+  when: ansible_facts['distribution'] in ["Ubuntu"]
 
 - name: install fd (Fedora)
   ansible.builtin.dnf:
@@ -177,7 +177,7 @@
     use_backend: dnf4
   become: yes
   tags: [server, client]
-  when: ansible_distribution == "Fedora"
+  when: ansible_facts['distribution'] == "Fedora"
 
 #-----------------------------#
 #   create config directory   #
@@ -185,7 +185,7 @@
 
 - name: Create nvim config directory
   file:
-    path: "/home/{{ target_user | default(ansible_user_id) }}/.config/nvim"
+    path: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.config/nvim"
     state: directory
   become: yes
   tags: [server, client]
@@ -196,12 +196,12 @@
 
 - name: Symlink nvim Config for clients
   file:
-    src: "/home/{{ target_user | default(ansible_user_id) }}/.dotfiles/roles/nvim/files"
-    dest: "/home/{{ target_user | default(ansible_user_id) }}/.config/nvim"
+    src: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.dotfiles/roles/nvim/files"
+    dest: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.config/nvim"
     state: link
     force: yes
   #  become: yes
-  become_user: "{{ target_user | default(ansible_user_id)}}"
+  become_user: "{{ target_user | default(ansible_facts['user_id'])}}"
   tags: [client]
 
 #------------------#
@@ -212,11 +212,11 @@
   #  file:
   copy:
     src: ./
-    dest: "/home/{{ target_user | default(ansible_user_id) }}/.config/nvim"
+    dest: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.config/nvim"
     #  state: link
     force: yes
-    owner: "{{ target_user | default(ansible_user_id) }}"
-    group: "{{ target_user | default(ansible_user_id) }}"
+    owner: "{{ target_user | default(ansible_facts['user_id']) }}"
+    group: "{{ target_user | default(ansible_facts['user_id']) }}"
   become: yes
-  # become_user: "{{ target_user | default(ansible_user_id) }}"
+  # become_user: "{{ target_user | default(ansible_facts['user_id']) }}"
   tags: [server]

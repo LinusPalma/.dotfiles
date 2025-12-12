@@ -17,12 +17,13 @@
 - name: Setup dotfiles
   hosts: all
   become: yes
-  # TODO: automatische erkennung des ausführenden users! --> default(ansible_user_id) funktionert nicht!!!
+  # TODO: automatische erkennung des ausführenden users! --> default(ansible_facts['user_id']) funktionert nicht!!!
   #  vars:
-  #    target_user: "{{ target_user | default(ansible_user_id) }}"
+  #    target_user: "{{ target_user | default(ansible_facts['user_id']) }}"
   roles:
     - git
     - yay
+    - nerdfonts
     - brave
     - zsh
     #    - ashell

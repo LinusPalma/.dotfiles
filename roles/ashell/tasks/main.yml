@@ -4,7 +4,8 @@
   command: yay -S --noconfirm ashell
   args:
     creates: /usr/bin/ashell
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts['distribution'] == "Archlinux"
+  # when: ansible_facts['distribution'] == "Archlinux"
   tags: [client]
 
 ### via plugin: ###
@@ -18,14 +19,14 @@
 
 - name: Create ashell config directory
   file:
-    path: "{{ ansible_env.HOME }}/.config/ashell"
+    path: "/home/{{ target_user }}/.config/ashell"
     state: directory
   tags: [client]
 
 - name: Symlink ashell config
   file:
-    src: "{{ ansible_env.HOME }}/.dotfiles/roles/ashell/files/config.toml"
-    dest: "{{ ansible_env.HOME }}/.config/ashell/config.toml"
+    src: "/home/{{ target_user }}/.dotfiles/roles/ashell/files/config.toml"
+    dest: "/home/{{ target_user }}/.config/ashell/config.toml"
     state: link
     force: yes
   tags: [client]
