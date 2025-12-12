@@ -1,7 +1,28 @@
 ---
+- name: install openssh
+  package:
+    name: openssh
+    state: present
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client]
+
 - name: install sshpass
   package:
     name: sshpass
     state: present
   when: ansible_facts['distribution'] in ["Ubuntu"]
   tags: [server]
+
+- name: create SSH directory
+  file:
+    path: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.ssh"
+    state: directory
+    mode: "0700"
+  tags: [client]
+
+- name: Deploy SSH private Key
+  copy:
+    content: "{{ ssh_private_key }}"
+    dest: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.ssh/id_ed25519"
+    mode: "0600"
+  tags: [client]
