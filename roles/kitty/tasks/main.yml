@@ -1,4 +1,10 @@
 ---
+- name: Install Kitty
+  package:
+    name: kitty
+    state: present
+  tags: [client]
+
 - name: Create Kitty config directory
   file:
     path: "/home/{{ target_user }}/.config/kitty"

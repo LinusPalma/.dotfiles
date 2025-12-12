@@ -1,0 +1,44 @@
+---
+- name: Install yay AUR helper
+  package: 
+    name:
+      - base-devel
+      - git
+    state: present
+  tags: [client]
+
+- name: chekc if yay is already installed
+  command: which yay
+  register: yay_check
+  changed_when: false
+  failed_when: false
+  tags: [client]
+
+- name: clone yay repo
+  become: false
+  git:
+    repo: https://aur.archlinux.org/yay-bin.git
+    dest: /tmp/yay
+    version: master
+  when: not yay_check.rc == 0
+  tags: [client]
+
+- name: build yay
+  become: false
+  command: makepkg --noconfirm
+  args:
+    chdir: /tmp/yay
+  when: not yay_check.rc == 0
+  tags: [client]
+
+- name: install yay
+  shell: pacman -U --noconfirm /tmp/yay/*pkg.tar.zst
+  when: not yay_check.rc == 0
+  tags: [client]
+ 
+- name: Remove build directory
+  file: 
+   path: /tmp/yay
+   state: absent
+  when: not yay_check.rc == 0
+  tags: [client]

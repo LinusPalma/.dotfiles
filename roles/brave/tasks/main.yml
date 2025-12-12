@@ -1,0 +1,10 @@
+---
+- name: instal brave
+  become: yes
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    name: brave-bin
+    use: yay
+    state: present
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client]

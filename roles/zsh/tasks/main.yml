@@ -122,6 +122,12 @@
   when: ansible_distribution in ["Archlinux", "Debian", "Ubuntu", "Fedora"]
   tags: [server, client]
 
+- name: create fastfetch directory
+  file:
+    path: "/home/{{ target_user }}/.config/fastfetch"
+    state: directory
+  tags: [client]
+  
 - name: copy fastfetch configs
   copy:
     src: ./fastfetch/config-client.jsonc

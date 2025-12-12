@@ -22,8 +22,10 @@
   #    target_user: "{{ target_user | default(ansible_user_id) }}"
   roles:
     - git
+    - yay
+    - brave
     - zsh
-    - ashell
+    #    - ashell
     - hyprland
     - hyprlock
     - nvim
