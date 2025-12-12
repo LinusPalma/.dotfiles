@@ -21,4 +21,4 @@
     # dest: "{{ ansible_env.HOME }}/.config/hypr/hyprland.conf"
     state: link
     force: yes
-    tags: [client]
+  tags: [client]
