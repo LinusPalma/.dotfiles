@@ -1,20 +1,19 @@
 ---
-- name: Install Kitty
-  package:
-    name: kitty
-    state: present
-  tags: [client]
+- block:
+    - name: Install Kitty
+      package:
+        name: kitty
+        state: present
 
-- name: Create Kitty config directory
-  file:
-    path: "/home/{{ target_user }}/.config/kitty"
-    state: directory
-  tags: [client]
+    - name: Create Kitty config directory
+      file:
+        path: "/home/{{ target_user }}/.config/kitty"
+        state: directory
 
-- name: Kitty config symlink
-  file:
-    src: "/home/{{ target_user }}/.dotfiles/roles/kitty/files"
-    dest: "/home/{{ target_user }}/.config/kitty"
-    state: link
-    force: true
+    - name: Kitty config symlink
+      file:
+        src: "/home/{{ target_user }}/.dotfiles/roles/kitty/files"
+        dest: "/home/{{ target_user }}/.config/kitty"
+        state: link
+        force: true
   tags: [client]

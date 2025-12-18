@@ -26,7 +26,7 @@
     - nerdfonts
     - brave
     - zsh
-    #    - ashell
+    - ashell
     - hyprland
     - hyprlock
     - nvim
@@ -36,3 +36,10 @@
     - waybar
     - swaync
     - ags
+    - btop
+    - onlyoffice
+    - rofi
+    - nextcloud-client
+    - yazi
+    - unzip
+    - screenshots

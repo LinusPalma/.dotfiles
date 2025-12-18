@@ -1,0 +1,8 @@
+---
+- name: install rofi
+  package:
+    name: rofi
+    state: present
+  become: yes
+  tags: [client]
+  when: ansible_facts['distribution'] == 'Archlinux'

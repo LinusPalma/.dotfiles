@@ -1,0 +1,12 @@
+---
+- name: install grim, slurp, satty & wl-clipboard
+  package:
+    name:
+      - grim
+      - slurp
+      - satty
+      - wl-clipboard
+    state: present
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client, server]

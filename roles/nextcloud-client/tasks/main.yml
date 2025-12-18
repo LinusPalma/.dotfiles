@@ -1,0 +1,40 @@
+---
+- name: install gnome-keyring as dependencie for nextcloud-client
+  package:
+    name:
+      - libsecret
+      - gnome-keyring
+    state: present
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client]
+
+- name: Install Nextcloud client
+  package:
+    name: nextcloud-client
+    state: present
+  become: yes
+  tags: [client]
+  when: ansible_facts['os_family'] == 'Archlinux'
+
+- name: Configure PAM for GNOME Keyring auto-unlock
+  become: yes
+  ansible.builtin.lineinfile:
+    path: "{{ item.path }}"
+    line: "{{ item.line }}"
+    state: present
+  loop:
+    - {
+        path: /etc/pam.d/login,
+        line: "auth       optional     pam_gnome_keyring.so",
+      }
+    - {
+        path: /etc/pam.d/login,
+        line: "session    optional     pam_gnome_keyring.so auto_start",
+      }
+    # Für später, wenn SDDM genutzt wird:
+    # - { path: /etc/pam.d/sddm, line: "auth       optional     pam_gnome_keyring.so" }
+    # - { path: /etc/pam.d/sddm, line: "session    optional     pam_gnome_keyring.so auto_start" }
+
+  tags: [client]
+  when: ansible_facts['os_family'] == 'Archlinux'

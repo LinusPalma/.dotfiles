@@ -1,66 +1,64 @@
 ---
-- name: Install yay AUR helper
-  package:
-    name:
-      - base-devel
-      - git
-    state: present
+- block:
+    - name: Install yay AUR helper
+      package:
+        name:
+          - base-devel
+          - git
+        state: present
+    - name: Check if yay is installed and working
+      command: yay --version
+      register: yay_check
+      changed_when: false
+      failed_when: false
   tags: [client]
 
-- name: chekc if yay is already installed
-  command: which yay
-  register: yay_check
-  changed_when: false
-  failed_when: false
-  tags: [client]
-
-- name: clone yay repo
-  become: false
-  git:
-    repo: https://aur.archlinux.org/yay-bin.git
-    dest: /tmp/yay
-    version: master
-  when: not yay_check.rc == 0
-  tags: [client]
-
-- name: build yay
-  become: false
-  command: makepkg --noconfirm
-  args:
-    chdir: /tmp/yay
-  when: not yay_check.rc == 0
-  tags: [client]
-
-- name: install yay
-  shell: pacman -U --noconfirm /tmp/yay/*pkg.tar.zst
-  when: not yay_check.rc == 0
-  tags: [client]
-
-- name: Remove build directory
-  file:
-    path: /tmp/yay
-    state: absent
-  when: not yay_check.rc == 0
+- block:
+    - name: Remove broken yay if exists
+      shell: pacman -R --noconfirm yay 2>/dev/null || true
+      when: yay_check.rc != 0
+      
+    - name: clone yay repo
+      become: false
+      git:
+        repo: https://aur.archlinux.org/yay-bin.git
+        dest: /tmp/yay
+        version: master
+        force: yes
+        
+    - name: build yay
+      become: false
+      command: makepkg --noconfirm -f 
+      args:
+        chdir: /tmp/yay
+        
+    - name: install yay
+      shell: pacman -U --noconfirm /tmp/yay/*pkg.tar.zst
+      
+    - name: Remove build directory
+      file:
+        path: /tmp/yay
+        state: absent
+  when: yay_check.rc != 0
   tags: [client]
 
 #----------------------#
 #setup aur_builder user#
 #----------------------#
+- block:
+    - name: Create the `aur_builder` user
+      become: yes
+      ansible.builtin.user:
+        name: aur_builder
+        create_home: yes
+        group: wheel
 
-- name: Create the `aur_builder` user
-  become: yes
-  ansible.builtin.user:
-    name: aur_builder
-    create_home: yes
-    group: wheel
-  tags: [client]
-
-- name: Allow the `aur_builder` user to run `sudo pacman` without a password
-  become: yes
-  ansible.builtin.lineinfile:
-    path: /etc/sudoers.d/11-install-aur_builder
-    line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
-    create: yes
-    mode: 0644
-    validate: "visudo -cf %s"
+    - name: Allow the `aur_builder` user to run `sudo pacman` without a password
+      become: yes
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/11-install-aur_builder
+        line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        create: yes
+        mode: 0644
+        validate: "visudo -cf %s"
   tags: [client]

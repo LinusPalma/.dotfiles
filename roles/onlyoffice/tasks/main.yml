@@ -1,0 +1,21 @@
+---
+- name: install onlyoffice dependencies
+  package:
+    name:
+      - base-devel
+      - git
+      - libnotify
+    state: present
+  become: yes
+  tags: [client]
+  when: ansible_facts['os_family'] == 'Archlinux'
+
+- name: install only-office
+  become: yes
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    name: onlyoffice-bin
+    use: yay
+    state: present
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client]

@@ -1,0 +1,12 @@
+---
+- name: install unip
+  package:
+    name:
+      - unzip
+      - zip
+      - p7zip
+      - unrar
+    state: present
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client, server]

@@ -1,0 +1,8 @@
+---
+- name: install btop++
+  package:
+    name: btop
+    state: present
+  become: yes
+  tags: [client, server]
+  when: ansible_facts['distribution'] in ["Archlinux"]

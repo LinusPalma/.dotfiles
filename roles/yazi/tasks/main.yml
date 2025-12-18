@@ -1,0 +1,9 @@
+---
+- name: install yazi
+  package:
+    name:
+      - yazi
+    state: present
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client, server]
