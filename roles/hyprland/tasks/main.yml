@@ -19,3 +19,12 @@
     state: link
     force: yes
   tags: [client]
+
+- name: insstall xdg-desktop-portal
+  package:
+    name:
+      - xdg-desktop-portal-hyprland
+      - xdg-desktop-portal-gtk
+    state: present
+  become: yes
+  tags: [client]
