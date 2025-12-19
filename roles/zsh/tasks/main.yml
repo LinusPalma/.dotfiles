@@ -126,14 +126,14 @@
   file:
     path: "/home/{{ target_user }}/.config/fastfetch"
     state: directory
-  tags: [client]
+  tags: [server, client]
 
 - name: copy fastfetch configs
   copy:
     src: ./fastfetch/config-client.jsonc
     dest: "/home/{{ target_user }}/.config/fastfetch/config.jsonc"
     force: yes
-  tags: [client]
+  tags: [server, client]
 
 - name: copy fastfetch configs
   copy:
