@@ -1,0 +1,20 @@
+---
+- name: install bluez and bluetui
+  package:
+    name:
+      - bluez
+      - bluez-utils
+      - bluetui
+    state: present
+  become: yes
+  tags: [client, bluetui]
+  when: ansible_facts['distribution'] in ["Archlinux"]
+
+- name: enable and start bluetooth service
+  systemd:
+    name: bluetooth
+    enabled: yes
+    state: started
+  become: yes
+  tags: [client, bluetui]
+  when: ansible_facts['distribution'] in ["Archlinux"]
