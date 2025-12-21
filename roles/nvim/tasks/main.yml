@@ -98,10 +98,10 @@
   tags: [server, client]
   when: ansible_facts['distribution'] in ["Ubuntu", "Debian"]
 
-- name: Install Node + NPM
+- name: Install Python venv (Ubuntu)
   package:
     name:
-      - python3.12-venv # only in Ubunut!
+      - python3-venv
     state: present
   become: yes
   tags: [server, client]
