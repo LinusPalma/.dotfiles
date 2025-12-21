@@ -1,0 +1,15 @@
+directory: /mnt/nfs/music
+library: ~/.config/beets/library.db
+
+import:
+  move: no
+  copy: yes
+  write: yes
+  log: ~/.config/beets/import.log
+
+plugins: lyrics
+
+lyrics:
+  auto: yes
+  sources: lrclib genius
+  synced: yes

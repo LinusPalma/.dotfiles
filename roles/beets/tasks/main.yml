@@ -1,0 +1,39 @@
+---
+- name: install beets (arch)
+  package:
+    name:
+      - beets
+
+      #--- Dependencies for lyrics plugin --#
+      - python-langdetect
+      - python-requests
+      - python-beautifulsoup4
+    state: present
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client]
+
+#-----------------------------#
+#   create config directory   #
+#-----------------------------#
+
+- name: Create config directory
+  file:
+    path: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.config/beets"
+    state: directory
+  become: yes
+  tags: [client]
+
+#------------------------#
+#   Symlinking configs   #
+#------------------------#
+
+- name: Symlink Config for clients
+  file:
+    src: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.dotfiles/roles/beets/files/config.yaml"
+    dest: "/home/{{ target_user | default(ansible_facts['user_id']) }}/.config/beets/config.yaml"
+    state: link
+    force: yes
+  #  become: yes
+  become_user: "{{ target_user | default(ansible_facts['user_id'])}}"
+  tags: [client]
