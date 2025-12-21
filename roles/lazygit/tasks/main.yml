@@ -9,11 +9,9 @@
     state: present
   become: yes
   tags: [server, client]
-  when: >
-    ansible_facts['distribution'] in ["Archlinux"] or
-    (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] is version('25.04', '>='))
+  when: ansible_facts['distribution'] in ["Archlinux"]
 
-- name: Install lazygit (Ubuntu > 25.04)
+- name: Install lazygit (Ubuntu - from GitHub)
   block:
     - name: Get latest lazygit release version
       uri:
@@ -38,9 +36,7 @@
         mode: "0755"
         remote_src: yes
   become: yes
-  when:
-    - ansible_facts['distribution'] == "Ubuntu"
-    - ansible_facts['distribution_version'] is version ('25.04', '<')
+  when: ansible_facts['distribution'] == "Ubuntu"
   tags: [server, client]
 
 - name: Install lazygit (Fedora)
