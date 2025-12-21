@@ -1,0 +1,25 @@
+// rmpc configuration
+// See: https://mierak.github.io/rmpc/configuration/
+
+#![enable(implicit_some)]
+#![enable(unwrap_newtypes)]
+#![enable(unwrap_variant_newtypes)]
+
+(
+    // MPD connection settings
+    address: "127.0.0.1:6600",
+    
+    // Album art settings
+    album_art: (
+        method: Auto,
+    ),
+    
+    // Status update interval in ms
+    status_update_interval_ms: 1000,
+    
+    // Enable mouse support
+    enable_mouse: true,
+    
+    // Scrolloff - lines to keep visible above/below cursor
+    scrolloff: 8,
+)
