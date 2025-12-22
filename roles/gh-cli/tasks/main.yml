@@ -17,7 +17,7 @@
       ansible.builtin.get_url:
         url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
         dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
-        mode: '0644'
+        mode: "0644"
 
     - name: Add GitHub CLI repository
       ansible.builtin.apt_repository:
@@ -47,7 +47,7 @@
     name: npm
     state: present
   become: yes
-  tags: [client]
+  tags: [server, client]
   when: ansible_facts['distribution'] == "Archlinux"
 
 - name: Install npm (Ubuntu/Debian)
@@ -55,7 +55,7 @@
     name: npm
     state: present
   become: yes
-  tags: [client]
+  tags: [server, client]
   when: ansible_facts['distribution'] in ["Ubuntu", "Debian"]
 
 - name: Install npm (Fedora)
@@ -64,7 +64,7 @@
     state: present
     use_backend: dnf4
   become: yes
-  tags: [client]
+  tags: [server, client]
   when: ansible_facts['distribution'] == "Fedora"
 
 - name: Install GitHub Copilot CLI
@@ -73,4 +73,4 @@
     global: yes
     state: present
   become: yes
-  tags: [client]
+  tags: [server, client]
