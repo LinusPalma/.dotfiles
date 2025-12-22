@@ -1,0 +1,14 @@
+---
+- name:
+  package:
+    name:
+      - moonlight-qt
+      # --- grafic driver --- #
+      - vulkan-intel
+      - vulkan-tools
+      - qt6-wayland
+      - intel-media-driver
+    state: present
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client]
