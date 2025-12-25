@@ -1,4 +1,13 @@
 ---
+- name: install hyprlock
+  package:
+    name:
+      - hyprlock
+    state: present
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client]
+
 - name: Symlink Hyprlock
   file:
     src: "/home/{{ target_user }}/.dotfiles/roles/hyprlock/files/hyprlock.conf"

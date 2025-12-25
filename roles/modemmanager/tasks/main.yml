@@ -1,0 +1,18 @@
+---
+- name: install mm
+  package:
+    name:
+      - modemmanager
+    state: present
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+  tags: [client]
+
+- name: enable and start mm service
+  systemd:
+    name: ModemManager
+    enabled: yes
+    state: started
+  become: yes
+  tags: [client]
+  when: ansible_facts['os_family'] == 'Archlinux'

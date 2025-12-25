@@ -1,0 +1,21 @@
+---
+- name: Install tmux
+  package:
+    name: tmux
+    state: present
+  become: yes
+  tags: [client, server]
+
+- block:
+    - name: Create tmux config directory
+      file:
+        path: "/home/{{ target_user }}/.config/tmux"
+        state: directory
+
+    - name: Tmux config symlink
+      file:
+        src: "/home/{{ target_user }}/.dotfiles/roles/tmux/files/tmux.conf"
+        dest: "/home/{{ target_user }}/.config/tmux/tmux.conf"
+        state: link
+        force: true
+  tags: [client, server]
